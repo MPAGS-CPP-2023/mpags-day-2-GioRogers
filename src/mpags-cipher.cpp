@@ -6,6 +6,13 @@
 
 std::string transformChar(const char in_char)
 {   
+    /* Take an input character and return a string of its capital or in the case of the input character being a number return the number spelled out in capitals.
+
+    const char in_char: Input character
+
+    return: The capital of the input character. The speeled (in capitals) word if the input character is a number
+    
+    */
     std::string outputChar;
     if (std::isalpha(in_char)) {
         outputChar += std::toupper(in_char);
