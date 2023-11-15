@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-// Transliterate char into string
+// Process the comand line arguments.
 bool processCommandLine(
     const std::vector<std::string>& args,
     bool& helpRequested,
