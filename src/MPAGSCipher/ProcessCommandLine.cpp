@@ -8,7 +8,9 @@ bool processCommandLine(
     bool& helpRequested,
     bool& versionRequested,
     std::string& inputFileName,
-    std::string& outputFileName)
+    std::string& outputFileName,
+    bool& encrypt,
+    size_t& key)
 {
     const std::size_t nCmdLineArgs{args.size()};
     // Process command line arguments - ignore zeroth element, as we know this
@@ -44,11 +46,32 @@ bool processCommandLine(
                 outputFileName = args[i + 1];
                 ++i;
             }
+        } else if (args[i] == "--key"){
+            std::cout << "Key being assigned" << std::endl;
+            if (i == nCmdLineArgs - 1) {
+                std::cerr << "[error] --key requires a key argument"
+                        << std::endl;
+                // exit main with non-zero return to indicate failure
+                return 1;
+            } else {
+                // Got a key, so assign value and advance past it
+                std::cout << "KEY HAS A NIMBER" << std::endl;
+                key = std::stoi(args[i+1]);
+                ++i;
+                if (key>25){
+                    std::cerr << "[error] key must be between 0 and 25" << "'\n'";
+                    return 1;
+                }
+            }
+        } else if (args[i] == "-e"){
+            encrypt = true;
+        }  else if (args[i] == "-d"){
+            encrypt = false;
         } else {
             // Have an unknown flag to output error message and return non-zero
             // exit status to indicate failure
             std::cerr << "[error] unknown argument '" << args[i]
-                      << "'\n";
+                      << std::endl;
             return 1;
         }
     }

@@ -5,6 +5,7 @@
 
 #include "TransformChar.hpp"
 #include "ProcessCommandLine.hpp"
+#include "RunCaesarCipher.hpp"
 #include <fstream>
 
 int main(int argc, char* argv[])
@@ -17,13 +18,18 @@ int main(int argc, char* argv[])
     bool versionRequested{false};
     std::string inputFile{""};
     std::string outputFile{""};
+    bool encrypt;
+    size_t key;
+
 
     processCommandLine(
         cmdLineArgs,
         helpRequested,
         versionRequested,
         inputFile,
-        outputFile
+        outputFile,
+        encrypt,
+        key
     );
 
     // Handle help, if requested
@@ -39,6 +45,10 @@ int main(int argc, char* argv[])
             << "                   Stdin will be used if not supplied\n\n"
             << "  -o FILE          Write processed text to FILE\n"
             << "                   Stdout will be used if not supplied\n\n"
+            << "  --key            Key for the CAESAR cipher\n\n"
+            << "  -e               Use encrypt for the Caesar cipher\n"
+            << "                   The default is decrypt\n\n"
+            << "  -d               Use decrypt for the Caesar cipher\n\n"
             << std::endl;
         // Help requires no further action, so return from main
         // with 0 used to indicate success
@@ -102,7 +112,9 @@ int main(int argc, char* argv[])
         }
     }
     else{
-        std::cout << inputText << std::endl;
+        std::string encryptedText;
+        encryptedText = {runCaesarCipher(inputText, key, encrypt)};
+        std::cout << encryptedText << std::endl;
     }
 
     
